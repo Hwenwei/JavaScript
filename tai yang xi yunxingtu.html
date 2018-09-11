@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>用js面向对象试写canvas移动星球练习</title>
+</head>
+<style type="text/css">
+    *{
+        margin:0;
+        padding:0;
+    }
+    #canvas{
+        background-color:black;
+        margin:20px 20px;
+    }
+</style>
+<body>
+    <canvas id="canvas"></canvas>
+</body>
+<script  type="text/javascript">
+    var canvas=document.querySelector("#canvas");
+    document.createAttribute("width");
+    document.createAttribute("height");
+    canvas.setAttribute("width",800);
+    canvas.setAttribute("height",600);
+    var cav=canvas.getContext("2d");
+    function strokeArc(x,y,r,color){
+    //轨道属性
+    this.x=x;
+    this.y=y;
+    this.r=r;
+    this.color=color;
+    this.olength=5;
+    //轨道绘制方法
+    this.drawArc=function(){
+    for(var i=1; i<=this.olength; i++){
+        cav.beginPath();
+        cav.strokeStyle=this.color;
+        cav.arc(this.x,this.y,i*this.r,0,360,false);
+        cav.closePath();
+        cav.stroke();
+        }
+      }
+    }
+    var arc =new strokeArc(400,300,50,"white");
+    arc.drawArc();
+    var sta1=new drawSta(0,0,20,0,'#f00','#ffff00')
+    var sta2=new drawSta(50,0,15,360,'#f00','#00f')
+    var sta3=new drawSta(100,0,23,830,'#f00','#0f0')
+    var sta4=new drawSta(150,0,18,3460,'#0f0','#00f')
+    var sta5=new drawSta(200,0,22,8720,'#f00','#fff')
+    var sta6=new drawSta(250,0,16,14580,'#fff','#00f')
+    setInterval(function(){ 
+      cav.clearRect(0,0,800,600);
+      arc.drawArc();
+      sta1.moveSta();
+      sta2.moveSta();
+      sta3.moveSta();
+      sta4.moveSta();
+      sta5.moveSta();
+      sta6.moveSta();     
+    },10)
+     
+    function drawSta(x,y,r,cycle,color1,color2){
+        //星球的属性
+        this.x=x;
+        this.y=y;
+        this.r=r;
+        this.cycle=cycle;
+        this.color1=color1;
+        this.color2=color2;
+        this.time=0;
+        //星球绘制运动的方法
+        this.moveSta=function(){        
+        cav.save();
+        cav.translate(400,300);
+        cav.rotate(this.time*(360/this.cycle)*Math.PI/180);
+        cav.beginPath();
+        var g=cav.createRadialGradient(this.x,this.y,0,this.x,this.y,this.r);
+        g.addColorStop(0,this.color1);
+        g.addColorStop(1,this.color2);
+        cav.fillStyle=g;        
+        cav.arc(this.x,this.y,this.r,0,2*Math.PI,false);       
+        cav.closePath();
+        cav.fill();
+        cav.restore();
+        this.time++;  
+        }        
+         
+    }
+      
+</script>
+</html>
