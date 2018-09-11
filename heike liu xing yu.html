@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>原生js仿写黑客流行雨练习</title>
+</head>
+<style type="text/css">
+*{
+    margin:0px;
+    padding:0px;
+}
+#canvas{
+    background-color:#000;
+}
+</style>
+<body>
+    <canvas id="canvas">浏览器不支持</canvas>
+</body>
+<script type="text/javascript">
+    var canvas=document.getElementById("canvas");
+    var w=canvas.width=window.screen.width;
+    var h=canvas.height=window.screen.height;
+    var canx=canvas.getContext("2d");
+    var work=Array(256).join("1").split("");
+    function draw(){
+    canx.fillStyle="rgba(0,0,0,0.05)";
+    canx.fillRect(0,0,w,h);
+    var text=String.fromCharCode(65+Math.ceil(Math.random()*57));
+    work.map(function(mid,index){      
+       canx.fillStyle="#0f0";
+       var x=index*10;
+       canx.fillText(text,x,mid);
+       work[index]=mid>574+Math.random()*454?0:mid+10;
+     })
+    }
+    setInterval(draw,50);
+</script>
+</html>
