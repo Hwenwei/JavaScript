@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>css3运用原生js绘制下雪效果练习</title>
+</head>
+<style type="text/css">
+    *{
+        margin:0;
+        padding:0;
+    }
+    #canvas{
+        display:block;
+        background:#000;
+    }
+</style>
+<body>
+<canvas id="canvas"></canvas>   
+</body>
+<script type="text/javascript">
+var canvas=document.getElementById("canvas");
+var w=canvas.width=window.innerWidth;
+var h=canvas.height=window.innerHeight;
+window.onresize=function(){
+    w=canvas.width=window.innerWidth;
+    h=canvas.height=window.innerHeight;
+}
+//设置绘制的环境
+var cax=canvas.getContext("2d");
+cax.fillStyle="white";
+var arr=[];
+//雪花的数量
+var n=1000;
+for(var i=0; i<n; i++){
+    var x=Math.random()*w;
+    var y=Math.random()*h;
+    var r=Math.random()*3;      
+    cax.beginPath();
+    cax.arc(x,y,r,0,2*Math.PI,false);
+    cax.closePath();   
+    cax.fill();
+    arr.push({"x":x,"y":y,"r":r});  
+}
+ 
+setInterval(function(){
+    cax.clearRect(0,0,w,h);
+    for(var i=0; i<arr.length; i++){        
+    arr[i].y+=Math.random()*5;
+    if(arr[i].y>h){
+       arr[i].y=0;
+    }   
+    cax.beginPath();
+ 
+    cax.arc(arr[i].x,arr[i].y,arr[i].r,0,2*Math.PI,false);
+    cax.closePath(); 
+    cax.fill();
+    }
+},100);
+ 
+</script>
+</html>
